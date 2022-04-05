@@ -31,7 +31,7 @@
 	<p>
 		<% 
 		if (result.next()) {
-			out.print("Login successful!");
+			 response.sendRedirect("home.jsp");
 		} else {
 			out.print("Failed to login!");
 		}
