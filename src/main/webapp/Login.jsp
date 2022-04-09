@@ -7,33 +7,30 @@
 <title>Dirty Bubble</title>
 </head>
 <body>
-	<h2>Please input your login:</h2>
+	<h2 style="text-align: center">Please input your login:</h2>
 	<form method="post" action="VerifyLogin.jsp">
-		<table>
+		<table style="margin: 0px auto;">
 		<tr>
-			<td>Username: <input type="text" name="username" value=""/></td>
+			<td>Username: <input type="text" name="username" value="" maxlength="30" required/></td>
 		</tr>
 		<tr>
-			<td>Password: <input type="text" name="password" value=""/></td>
+			<td>Password: <input type="password" name="password" value="" maxlength="30" required/></td>
 		</tr>
 		<tr>
-			<td><input type="submit" value="submit" /></td>
-		</tr>
-		</table>
-	</form>
-	
-	<h2>Register a new account:</h2>
-	<form method="post" action="RegisterAccount.jsp">
-		<table>
-		<tr>
-			<td>Username: <input type="text" name="username" value=""/></td>
+			<td><input type="submit" value="Log in" style="width: 100%;"/></td>
 		</tr>
 		<tr>
-			<td>Password: <input type="text" name="password" value=""/></td>
+			<td><p style="text-align: center">Don't have an account? <a href="Register.jsp">Create one</a></p></td>
 		</tr>
-		<tr>
-			<td><input type="submit" value="submit" /></td>
-		</tr>
+		<% if (request.getParameter("registerRet") != null) { %>
+			<tr>
+				<td><p style="text-align: center;"><%=request.getParameter("registerRet")%></p></td>
+			</tr>
+		<% } else if (request.getParameter("loginRet") != null) { %>
+			<tr>
+				<td><p style="text-align: center; color: red"><%=request.getParameter("loginRet")%></p></td>
+			</tr>
+		<% } %>
 		</table>
 	</form>
 </body>

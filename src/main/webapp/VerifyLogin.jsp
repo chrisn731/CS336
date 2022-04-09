@@ -27,20 +27,23 @@
 			ps.setString(2, password);
 			ResultSet result = ps.executeQuery();
 
-	%>
-	<p>
-		<% 
-		if (result.next()) {
-			 response.sendRedirect("home.jsp");
-		} else {
-			out.print("Failed to login!");
-		}
-		%>
-	</p>
-		<% 
+			if (result.next()) {
+				 response.sendRedirect("home.jsp");
+			} else {
+				%>
+				<jsp:forward page="Login.jsp">
+				<jsp:param name="loginRet" value="Incorrect username or password."/> 
+				</jsp:forward>
+				<%
+			}
+
 		} catch (Exception e) {
-			out.print("yo didnt work");
+			%>
+			<jsp:forward page="Login.jsp">
+			<jsp:param name="loginRet" value="Error logging in. Please try again."/> 
+			</jsp:forward>
+			<%
 		}
-		%>
+	%>
 </body>
 </html>

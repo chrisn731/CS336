@@ -10,7 +10,7 @@
 <title>Account Registration</title>
 </head>
 <body>
-		<%
+	<%
 		try {
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
@@ -27,19 +27,33 @@
 			ps.executeUpdate();
 
 	%>
-	<p>
-		Account successfully registered. Return to home and sign in.
-	</p>
-		<% 
+	<jsp:forward page="Login.jsp">
+	<jsp:param name="registerRet" value="Account successfully created."/> 
+	</jsp:forward>
+	<% 
 		} catch (SQLException e) {
 			String code = e.getSQLState();
-			if (code.equals("23000"))
-				out.print("Error: User already exists!");
-			else
-				out.print("SQL Error code: " + code);
+			if (code.equals("23000")) {
+				%>
+				<jsp:forward page="Register.jsp">
+				<jsp:param name="msg" value="This username is already exists."/> 
+				</jsp:forward>
+				<%
+			} else {
+				%>
+				<jsp:forward page="Register.jsp">
+				<jsp:param name="msg" value="Error creating account. Please try again."/> 
+				</jsp:forward>
+				<%
+			}
 		} catch (Exception e) {
 			out.print("Unknown exception.");
+			%>
+			<jsp:forward page="Register.jsp">
+			<jsp:param name="msg" value="Error creating account. Please try again."/> 
+			</jsp:forward>
+			<%
 		}
-		%>
+	%>
 </body>
 </html>
