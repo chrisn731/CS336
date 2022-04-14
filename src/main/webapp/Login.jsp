@@ -24,7 +24,7 @@
 		</tr>
 		<% if (request.getParameter("registerRet") != null) { %>
 			<tr>
-				<td><p style="text-align: center;"><%=request.getParameter("registerRet")%></p></td>
+				<td><p style="text-align: center; color: blue"><%=request.getParameter("registerRet")%></p></td>
 			</tr>
 		<% } else if (request.getParameter("loginRet") != null) { %>
 			<tr>
