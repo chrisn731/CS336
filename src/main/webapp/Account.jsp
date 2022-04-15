@@ -40,17 +40,4 @@
     	
     </div>
 </body>
-<%
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-//chris sucks big fat monke penis
-%>
 </html>
