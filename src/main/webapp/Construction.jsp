@@ -21,6 +21,13 @@
 				<td><a href="Logout.jsp">Logout</a></td>
    			</tr>
     	</table>
+	    
+	    <div class="container">
+  <form class="form-inline" method="post" action="search.jsp">
+    <input type="text" name="search" class="form-control" placeholder="Search goes here...">
+    <button type="submit" name="save" class="btn btn-primary">Search</button>
+  </form>
+</div>
     	    	
     	 <% 
     		//Get the database connection
