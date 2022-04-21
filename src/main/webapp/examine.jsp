@@ -5,7 +5,7 @@
 <%@ page import="com.dbapp.*" %>
 
 	 <% 
-   //Get the database connection   ALSO TEMPORARY PLACEHOLDER PAGE NEED TO CHANGE SUBCATEGORY OR CREATE examinefigurines.jsp make this examinecars.jsp
+   //Get the database connection   ALSO TEMPORARY PLACEHOLDER PAGE NEED TO CHANGE SUBCATEGORY OR use/change examinefigurines.jsp make this examinecons.jsp
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
 
