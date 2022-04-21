@@ -49,7 +49,7 @@
             <% while(resultset.next()){ %>
             <TR>
             	<TD> <%= resultset.getString(1) %></TD>
-                <TD> <%= resultset.getString(2) %></TD>
+           <TD>  <a href="examine.jsp"><%=resultset.getString(2)%></TD>
                 <TD> <%= resultset.getString(4) %></TD>
                 <TD> <%= resultset.getString(5) %></TD>
             </TR>
