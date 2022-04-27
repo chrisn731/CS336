@@ -28,7 +28,11 @@
 			ResultSet result = ps.executeQuery();
 
 			if (result.next()) {
-				 response.sendRedirect("home.jsp");
+				%>
+				<jsp:forward page="home.jsp">
+				<jsp:param name="user" value="<%=username%>"/> 
+				</jsp:forward>
+				<% //ABOVE: FORWARD TO HOME PAGE WITH CURRENT USERNAME ATTACHED
 			} else {
 				%>
 				<jsp:forward page="Login.jsp">

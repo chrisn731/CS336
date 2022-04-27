@@ -15,27 +15,43 @@
 			//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
-			
 			Statement stmt = con.createStatement();
+			
+			String username = request.getParameter("username");
 			String itemname = request.getParameter("itemname");
 			String subcategory = request.getParameter("subcategory");
-			String subattribute = request.getParameter("subattribute");
-			String price = request.getParameter("price");
-			String minincrement = request.getParameter("minincrement");
-			
-			String insert = "INSERT INTO listings(itemname, subcategory, subattribute, price, minincrement) " 
-					+ "VALUES(?, ?, ?, ?, ?)";
-			
-			PreparedStatement ps = con.prepareStatement(insert);
-			ps.setString(1, itemname);
-			ps.setString(2, subcategory);
-			ps.setString(3, subattribute);
-			ps.setString(4, price);
-			ps.setString(5, minincrement);
-			ps.executeUpdate();
+			if(subcategory.equals("NONE")){
+				%>
+				<jsp:forward page="CreateListing.jsp?username=<%=username%>">
+				<jsp:param name="msg" value="You must select a subcategory."/> 
+				</jsp:forward>
+			<%}else{
+				String subattribute = request.getParameter("subattribute");
+				String price = request.getParameter("price");
+				String minsale = request.getParameter("minsale");
+				
+				//Statement 1: Insert into listings table
+				String insert = "INSERT INTO listings(itemname, subcategory, subattribute, price, minsale) " 
+						+ "VALUES(?, ?, ?, ?, ?)";
+				
+				PreparedStatement ps = con.prepareStatement(insert);
+				ps.setString(1, itemname);
+				ps.setString(2, subcategory);
+				ps.setString(3, subattribute);
+				ps.setString(4, price);
+				ps.setString(5, minsale);
+				ps.executeUpdate();
+				
+				//Statement 2: Insert into listings posts
+				insert = "INSERT INTO posts(l_id, username) " 
+						+ "VALUES((SELECT MAX(l_id) FROM listings),?)";
+				ps = con.prepareStatement(insert);
+				ps.setString(1, username);
+				ps.executeUpdate();
+			} 		
 			
 			%>
-			<jsp:forward page="Account.jsp">
+			<jsp:forward page="Account.jsp?username=<%=username%>">
 			<jsp:param name="createListingRet" value="Listing successfully created."/> 
 			</jsp:forward>
 			<% 
