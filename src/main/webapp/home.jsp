@@ -34,7 +34,9 @@
        
         <br><br>
         <table align="center">
-    		<tr>  
+    		<tr>
+    			<td><a href="ViewQuestions.jsp">Q&A</a>
+    			<td>|</td>
 				<td><a href="Account.jsp?username=<%=username%>">Account</a></td>
 				<td>|</td>
 				<td><a href="Logout.jsp">Logout</a></td>

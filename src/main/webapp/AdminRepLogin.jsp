@@ -8,22 +8,16 @@
 </head>
 <body>
 	<h2 style="text-align: center">Please input your login:</h2>
-	<form method="post" action="VerifyLogin.jsp">
+	<form method="post" action="VerifyEmployeeLogin.jsp">
 		<table style="margin: 0px auto;">
 		<tr>
-			<td>Username: <input type="text" name="username" value="" maxlength="30" required/></td>
+			<td>Employee ID: <input type="text" name="employee_id" value="" maxlength="30" required/></td>
 		</tr>
 		<tr>
 			<td>Password: <input type="password" name="password" value="" maxlength="30" required/></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="Log in" style="width: 100%;"/></td>
-		</tr>
-		<tr>
-			<td><p style="text-align: center">Don't have an account? <a href="Register.jsp">Create one</a></p></td>
-		</tr>
-		<tr>
-			<td>Admin or Customer Rep? <a href="AdminRepLogin.jsp">Click here!</a></td>
 		</tr>
 		<% if (request.getParameter("registerRet") != null) { %>
 			<tr>

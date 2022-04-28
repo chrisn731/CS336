@@ -21,7 +21,7 @@
 			String question = request.getParameter("question"); //their question
 			
 			//Statement 1: Insert into questions table
-			String insert = "INSERT INTO questions(question) " 
+			String insert = "INSERT INTO question(q_text) " 
 					+ "VALUES(?)";
 			
 			PreparedStatement ps = con.prepareStatement(insert);
@@ -30,7 +30,7 @@
 			
 			//Statement 2: Insert into asks table
 			insert = "INSERT INTO asks(asker, q_id) " 
-					+ "VALUES(?, (SELECT MAX(q_id) FROM questions))";
+					+ "VALUES(?, (SELECT MAX(q_id) FROM question))";
 			
 			ps = con.prepareStatement(insert);
 			ps.setString(1, username);
