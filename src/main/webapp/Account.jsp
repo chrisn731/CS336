@@ -30,7 +30,10 @@
    			</tr>
    			<tr>
    				<td><td><br><a href="CreateListing.jsp?username=<%=username%>">Create Listing</a></td>
-   			</tr>   			
+   			</tr>
+   			<tr>
+   				<td><td><br><a href="AskQuestion.jsp?username=<%=username%>">Ask a Question</a></td>
+   			</tr>    			
    			<tr>
    				<td><td><br><a href="Logout.jsp">Delete Account</a></td>
    			</tr>   			
@@ -47,6 +50,12 @@
 			<% if (request.getParameter("createListingRet") != null) { %>
 			<tr>
 				<td><p style="text-align: center; color: blue"><%=request.getParameter("createListingRet")%></p></td>
+			</tr>
+			<% } %>
+			
+			<% if (request.getParameter("askQuestionRet") != null) { %>
+			<tr>
+				<td><p style="text-align: center; color: blue"><%=request.getParameter("askQuestionRet")%></p></td>
 			</tr>
 			<% } %>
     	</table>

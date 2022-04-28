@@ -47,3 +47,15 @@ CREATE TABLE places(
     FOREIGN KEY(b_id) REFERENCES bids(b_id),
     FOREIGN KEY(username) REFERENCES users(username)
 );
+
+CREATE TABLE questions(
+    q_id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    question VARCHAR(300)
+);
+
+CREATE TABLE asks(
+    asker VARCHAR(30),
+    q_id INT PRIMARY KEY,
+    FOREIGN KEY(asker) REFERENCES users(username),
+    FOREIGN KEY(q_id) REFERENCES questions(q_id)
+);
