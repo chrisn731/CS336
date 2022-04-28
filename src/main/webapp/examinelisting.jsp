@@ -19,6 +19,7 @@
 	            String subattr = null;//subattribute
 	            String price = null;//price
 	            String minsale = null;//min. sale price
+	            String cdt = null;//closing datetime
 	            Double p = null; //price
 	            Double m = null; //min incr
 	            Double minbid = null; //min bid
@@ -38,6 +39,7 @@
 	            subattr = resultset.getString(4);
 	            price = resultset.getString(5);
 	            minsale = resultset.getString(6);
+	            cdt = resultset.getString(7);
 	            
 	            p = Double.parseDouble(price);
 	            p = Math.floor(p * 100)/100;
@@ -97,14 +99,42 @@
     	
     	
     	
+    	<hr>
+    	<h3><u>Details:</u></h3>
+    	<p><b>Seller: </b><%=postedby%></p>
+    	<p><b>Closing Date/Time: </b><%=cdt%></p>
+    	<p><b>Subcategory: </b><%=subcat%></p>
+    	<p><b>Subattribute: </b><%=subattr%></p>
+    	<p><b>Min. Sale Price (will be hidden): </b><%=minsale%></p>
     	
-    	<h3><%= "Details:" %></h3>
-    	<p><%= "Posted By: " + postedby%></p>
-    	<p><%= "Closing Date/Time:"%></p>
-    	<p><%= "Subcategory:" + subcat%></p>
-    	<p><%="Subattribute: " + subattr%></p>
-    	<p><%="Min. Sale Price (WILL BE HIDDEN): " + minsale%></p>
-	
+    	<hr>
+		<div style="text-align: center">
+		<h3>Bid History</h3>
+		<%
+			Statement stmt3 = con.createStatement();
+	        ResultSet bidhist = stmt3.executeQuery("SELECT b.b_id, price, username, dtime from bids b "+
+	        		"LEFT JOIN bidson bo on bo.b_id = b.b_id LEFT JOIN places p on p.b_id = bo.b_id " +
+	        		"WHERE l_id= " +lid+";");
+		%>
+		
+		<TABLE align="center" BORDER="1">
+            <TR>
+                <TH>BidID</TH>
+                <TH>Price</TH>
+                <TH>Bidder</TH>
+                <TH>Date/Time</TH>
+            </TR>
+            <% while(bidhist.next()){ %>
+            <TR>
+            	<TD><%=bidhist.getString(1)%></TD>
+             	<TD><%=bidhist.getString(2)%></TD>
+                <TD><%=bidhist.getString(3)%></TD>
+                <TD><%=bidhist.getString(4)%></TD>
+            </TR>
+            <% } %>
+        </TABLE>
+		
+		</div>
     
 </body>
 </html>

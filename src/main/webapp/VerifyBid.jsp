@@ -47,13 +47,28 @@
 				ps.executeUpdate();
 				
 				//insert into bids
-				//insert = "INSERT INTO bids(price, dtime)" 
-					//	+ "VALUES(?,?)";
-				//ps = con.prepareStatement(insert);
-				//ps.setString(1, price);
-				//DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-				//ps.setTimestamp(2, Timestamp.valueOf(new LocalDateTime().now()));
-				//ps.executeUpdate();
+				insert = "INSERT INTO bids(price, dtime)" 
+						+ "VALUES(?,?)";
+				ps = con.prepareStatement(insert);
+				ps.setString(1, bid);
+				ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+				ps.executeUpdate();
+				
+				//insert into bidson
+				insert = "INSERT INTO bidson(b_id, l_id)" 
+						+ "VALUES((SELECT MAX(b_id) FROM bids),?)";
+				ps = con.prepareStatement(insert);
+				ps.setString(1, lid);
+				ps.executeUpdate();
+				
+				//insert into places
+				insert = "INSERT INTO places(b_id, username)" 
+						+ "VALUES((SELECT MAX(b_id) FROM bids),?)";
+				ps = con.prepareStatement(insert);
+				ps.setString(1, username);
+				ps.executeUpdate();
+				
+				
 			} 		
 			
 			%>

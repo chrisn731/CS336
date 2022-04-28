@@ -29,10 +29,11 @@
 				String subattribute = request.getParameter("subattribute");
 				String price = request.getParameter("price");
 				String minsale = request.getParameter("minsale");
+				String dt = request.getParameter("dt");
 				
 				//Statement 1: Insert into listings table
-				String insert = "INSERT INTO listings(itemname, subcategory, subattribute, price, minsale) " 
-						+ "VALUES(?, ?, ?, ?, ?)";
+				String insert = "INSERT INTO listings(itemname, subcategory, subattribute, price, minsale, dt) " 
+						+ "VALUES(?, ?, ?, ?, ?, ?)";
 				
 				PreparedStatement ps = con.prepareStatement(insert);
 				ps.setString(1, itemname);
@@ -40,6 +41,7 @@
 				ps.setString(3, subattribute);
 				ps.setString(4, price);
 				ps.setString(5, minsale);
+				ps.setString(6, dt);
 				ps.executeUpdate();
 				
 				//Statement 2: Insert into listings posts

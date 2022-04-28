@@ -44,6 +44,9 @@
 	   			<tr>  
 					<td>Min. Sale Price (Hidden): <input type="number" required name="minsale" min="0.01" value="0" step=".01"></td>
 	   			</tr>
+	   			<tr>  
+					<td>Closing Date/Time: <input type="datetime-local" required name="dt"></td>
+	   			</tr>
 	   			<tr>
 					<td><input type="submit" value="Create" style="width: 100%;"/></td>
 				</tr>
