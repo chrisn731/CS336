@@ -13,11 +13,12 @@ CREATE TABLE listings(
     subcategory VARCHAR(30),
     subattribute VARCHAR(30),
     price DECIMAL(10,2),
-    minsale DECIMAL(10,2)
+    minsale DECIMAL(10,2),
+    dt datetime
 	
 );
 
-#USER POSTS LISTING
+#connects sellers to their listings
 CREATE TABLE posts(
 	l_id int PRIMARY KEY,
 	username VARCHAR(30),
@@ -31,7 +32,7 @@ CREATE TABLE bids(
     dtime datetime
 );
 
-#Bids on listings
+#connects bid ids to listings
 CREATE TABLE bidson(
 	b_id int PRIMARY KEY,
 	l_id int,
@@ -39,3 +40,10 @@ CREATE TABLE bidson(
     FOREIGN KEY(b_id) REFERENCES bids(b_id)
 );
 
+#connects buyers to bid ids
+CREATE TABLE places(
+	b_id int PRIMARY KEY,
+	username VARCHAR(30),
+    FOREIGN KEY(b_id) REFERENCES bids(b_id),
+    FOREIGN KEY(username) REFERENCES users(username)
+);
