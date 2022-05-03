@@ -9,7 +9,10 @@
     		//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
-			String username = request.getParameter("username"); //get current user
+			String username = (String) session.getAttribute("username"); //asker
+			if (username == null) {
+				response.sendRedirect("Login.jsp");
+			}
 			String lid = request.getParameter("lid");
 			Statement stmt = con.createStatement();
             ResultSet resultset = stmt.executeQuery("SELECT * from listings WHERE l_id='"+lid+"';") ; 
@@ -33,18 +36,18 @@
 
                 <%
                 while(resultset.next()){
-	            //String lid created above
-	            name = resultset.getString(2);
-	            subcat = resultset.getString(3);
-	            subattr = resultset.getString(4);
-	            price = resultset.getString(5);
-	            minsale = resultset.getString(6);
-	            cdt = resultset.getString(7);
-	            
-	            p = Double.parseDouble(price);
-	            p = Math.floor(p * 100)/100;
-				minbid = p+.01;
-				minbid = Math.floor(minbid * 100)/100;
+		            //String lid created above
+		            name = resultset.getString(2);
+		            subcat = resultset.getString(3);
+		            subattr = resultset.getString(4);
+		            price = resultset.getString(5);
+		            minsale = resultset.getString(6);
+		            cdt = resultset.getString(7);
+		            
+		            p = Double.parseDouble(price);
+		            p = Math.floor(p * 100)/100;
+					minbid = p+.01;
+					minbid = Math.floor(minbid * 100)/100;
 	            }//end while loop
                 
                 while(fetchposter.next()){
@@ -54,10 +57,10 @@
             	%>
         
         <div style="text-align: center">
-        <a href="home.jsp?username=<%=username%>">Home</a>
+        <a href="home.jsp">Home</a>
     		<h1><%=name%></h1>
     		
-    		<form method="post" action="VerifyBid.jsp?username=<%=username%>">
+    		<form method="post" action="VerifyBid.jsp">
 	    	<table align="center">
 	   			<tr>  
 					<td><input type="hidden" name="lid" value="<%=lid%>" /></td>

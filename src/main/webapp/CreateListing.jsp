@@ -15,13 +15,16 @@
     	//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
-		String username = request.getParameter("username");
+		String username = (String) session.getAttribute("username");
+		if (username == null) {
+			response.sendRedirect("Login.jsp");
+		}
 			
     %>
 
     <div style="text-align: center">
     	<h1>Create A Listing</h1>
-    	<form method="post" action="VerifyListing.jsp?username=<%=username%>">
+    	<form method="post" action="VerifyListing.jsp">
 	    	<table align="center">
 	    		<tr>  
 					<td>Item Name: <input type="text" name="itemname" value="" maxlength="30" required/></td>
@@ -51,7 +54,7 @@
 					<td><input type="submit" value="Create" style="width: 100%;"/></td>
 				</tr>
 	   			<tr>
-	   				<td><a href="Account.jsp?username=<%=username%>">Back</a></td>
+	   				<td><a href="Account.jsp">Back</a></td>
 	   			</tr>
 	   			
 	   			<% if (request.getParameter("msg") != null) { %>

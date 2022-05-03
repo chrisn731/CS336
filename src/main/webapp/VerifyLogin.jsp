@@ -28,6 +28,7 @@
 			ResultSet result = ps.executeQuery();
 
 			if (result.next()) {
+				session.setAttribute("username", username);
 				%>
 				<jsp:forward page="home.jsp">
 				<jsp:param name="user" value="<%=username%>"/> 

@@ -14,6 +14,10 @@
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
 		Statement stmt = con.createStatement();
+		String admin_id = (String) session.getAttribute("employeeid");
+		if (admin_id == null) {
+			response.sendRedirect("Login.jsp");
+		}
 		ResultSet resultset = stmt.executeQuery("SELECT id, password FROM customer_rep");
 	%>
 	<h1>Welcome back, Admin.</h1>

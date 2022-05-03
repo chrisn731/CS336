@@ -15,7 +15,10 @@
     	//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
-		String username = request.getParameter("username");
+		String username = (String) session.getAttribute("username");
+		if (username == null) {
+			response.sendRedirect("Login.jsp");
+		}
 			
     %>
 
@@ -24,11 +27,11 @@
        
        <table style="margin: 0px auto;">
 		<tr>
-			<td><a href="Figurines.jsp?username=<%=username%>">Figurines</a></td>
+			<td><a href="Figurines.jsp">Figurines</a></td>
 			<td>|</td>
-			<td><a href="Cars.jsp?username=<%=username%>">Cars</a></td>
+			<td><a href="Cars.jsp">Cars</a></td>
 			<td>|</td>
-			<td><a href="Construction.jsp?username=<%=username%>">Construction</a></td>
+			<td><a href="Construction.jsp">Construction</a></td>
 		</tr>
 		</table>
        
@@ -37,7 +40,7 @@
     		<tr>
     			<td><a href="ViewQuestions.jsp">Q&A</a>
     			<td>|</td>
-				<td><a href="Account.jsp?username=<%=username%>">Account</a></td>
+				<td><a href="Account.jsp">Account</a></td>
 				<td>|</td>
 				<td><a href="Logout.jsp">Logout</a></td>
    			</tr>

@@ -29,6 +29,7 @@
 			ResultSet result = ps.executeQuery();
 
 			if (result.next()) {
+				session.setAttribute("employeeid", id);
 				%>
 				<jsp:forward page="AdminHome.jsp">
 				<jsp:param name="user" value="<%=id%>"/> 
@@ -43,6 +44,7 @@
 			ps.setString(2, password);
 			result = ps.executeQuery();
 			if (result.next()) {
+				session.setAttribute("employeeid", id);
 				%>
 				<jsp:forward page="CustomerRepHome.jsp">
 				<jsp:param name="rep_id" value="<%=id%>"/> 

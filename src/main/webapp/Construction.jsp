@@ -15,7 +15,10 @@
     	//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
-		String username = request.getParameter("username");
+		String username = (String) session.getAttribute("username");
+		if (username == null) {
+			response.sendRedirect("Login.jsp");
+		}
 		
 	%>
 
@@ -23,16 +26,16 @@
     	<h1>Subcategory: Construction</h1>
     	<table align="center">
     		<tr>  
-    			<td><a href="home.jsp?username=<%=username%>">Home</a></td>
+    			<td><a href="home.jsp">Home</a></td>
         		<td>|</td>
-				<td><a href="Account.jsp?username=<%=username%>">Account</a></td>
+				<td><a href="Account.jsp">Account</a></td>
 				<td>|</td>
 				<td><a href="Logout.jsp">Logout</a></td>
    			</tr>
     	</table>
 	    
 	    <div class="container">
-  <form class="form-inline" method="post" action="search.jsp?username=<%=username%>">
+  <form class="form-inline" method="post" action="search.jsp">
     <input type="text" name="search" class="form-control" placeholder="Search goes here...">
     <button type="submit" name="save" class="btn btn-primary">Search</button>
   </form>
@@ -43,7 +46,7 @@
             ResultSet resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Construction';") ; 
         %>
     	<br><br>
-    	<form method="post" action="examinelisting.jsp?username=<%=username%>">
+    	<form method="post" action="examinelisting.jsp">
     	<TABLE align="center" BORDER="1">
             <TR>
             	<TH></TH>

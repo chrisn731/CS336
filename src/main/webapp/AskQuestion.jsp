@@ -15,13 +15,16 @@
     	//Get the database connection
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
-		String username = request.getParameter("username");
+		String username = (String) session.getAttribute("username");
+		if (username == null) {
+			response.sendRedirect("Login.jsp");
+		}
 			
     %>
 
     <div style="text-align: center">
     	<h1>Customer Rep. Help</h1>
-    	<form method="post" action="VerifyQuestion.jsp?username=<%=username%>">
+    	<form method="post" action="VerifyQuestion.jsp">
 	    	<table align="center">
 	    		<tr>  
 					<td><p><label for="question">Please fill out the form below:</label></p>
@@ -32,7 +35,7 @@
 	   				<td><input type="submit" value="Post" style="width: 50%;"/></td>
 	   			</tr>
 	   			<tr>
-	   				<td><a href="Account.jsp?username=<%=username%>">Back</a></td>
+	   				<td><a href="Account.jsp">Back</a></td>
 	   			</tr>					
 	   			
 	   			

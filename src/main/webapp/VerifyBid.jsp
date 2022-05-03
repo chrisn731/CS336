@@ -20,7 +20,10 @@
 			Statement stmt2 = con.createStatement();//insert into bids
 			Statement stmt3 = con.createStatement();//insert into bidson
 			
-			String username = request.getParameter("username"); //user making the bid
+			String username = (String) session.getAttribute("username");
+			if (username == null) {
+				response.sendRedirect("Login.jsp");
+			}
 			String lid = request.getParameter("lid");
 			String bid = request.getParameter("bid");
 			String price = request.getParameter("price");
@@ -31,12 +34,12 @@
             b = Math.floor(b * 100)/100;
 			if(bid.equals("NONE")){
 				%>
-				<jsp:forward page="examinelisting.jsp?username=<%=username%>">
+				<jsp:forward page="examinelisting.jsp">
 				<jsp:param name="msg" value="You must input a bid."/> 
 				<jsp:param name="lid" value="<%=lid%>"/> 
 				</jsp:forward>
 			<%}else if(p>=b){%>
-				<jsp:forward page="examinelisting.jsp?username=<%=username%>">
+				<jsp:forward page="examinelisting.jsp">
 				<jsp:param name="msg" value="You must input a valid bid."/> 
 				<jsp:param name="lid" value="<%=lid%>"/> 
 				</jsp:forward><%
@@ -72,7 +75,7 @@
 			} 		
 			
 			%>
-			<jsp:forward page="examinelisting.jsp?username=<%=username%>">
+			<jsp:forward page="examinelisting.jsp">
 			<jsp:param name="makeBidRet" value="Bid success!"/>
 			<jsp:param name="lid" value="<%=lid%>"/>
 			 

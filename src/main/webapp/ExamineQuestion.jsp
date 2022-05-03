@@ -14,7 +14,10 @@
 		ApplicationDB db = new ApplicationDB();	
 		Connection con = db.getConnection();
 		
-		String rep_id = request.getParameter("rep_id");
+		String rep_id = (String) session.getAttribute("employeeid");
+		if (rep_id == null) {
+			response.sendRedirect("Login.jsp");
+		}
 		String q_id = request.getParameter("q_id");
 		
 		String ask_query = "SELECT asker FROM asks WHERE q_id=(?)";

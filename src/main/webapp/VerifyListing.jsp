@@ -17,12 +17,15 @@
 			Connection con = db.getConnection();
 			Statement stmt = con.createStatement();
 			
-			String username = request.getParameter("username");
+			String username = (String) session.getAttribute("username");
+			if (username == null) {
+				response.sendRedirect("Login.jsp");
+			}
 			String itemname = request.getParameter("itemname");
 			String subcategory = request.getParameter("subcategory");
 			if(subcategory.equals("NONE")){
 				%>
-				<jsp:forward page="CreateListing.jsp?username=<%=username%>">
+				<jsp:forward page="CreateListing.jsp">
 				<jsp:param name="msg" value="You must select a subcategory."/> 
 				</jsp:forward>
 			<%}else{
@@ -53,7 +56,7 @@
 			} 		
 			
 			%>
-			<jsp:forward page="Account.jsp?username=<%=username%>">
+			<jsp:forward page="Account.jsp">
 			<jsp:param name="createListingRet" value="Listing successfully created."/> 
 			</jsp:forward>
 			<% 

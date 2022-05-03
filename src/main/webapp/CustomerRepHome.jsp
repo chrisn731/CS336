@@ -17,7 +17,10 @@
 	<h1>Welcome back!</h1>
 	<h2>Questions</h2>
 		<%
-			String rep_id = request.getParameter("rep_id");
+			String rep_id = (String) session.getAttribute("employeeid");
+			if (rep_id == null) {
+				response.sendRedirect("Login.jsp");
+			}
 			Statement stmt = con.createStatement();
 			ResultSet resultset = stmt.executeQuery("SELECT q_id, q_text FROM question");
 		%>
@@ -34,12 +37,13 @@
 			</tr>
 		<% } %>
 		</table>
-		<input type="hidden" name ="rep_id" value = "<%= rep_id %>" />
 		</form>
 	<hr>
 	<h2>Bids and Auctions</h2>
 	
 	<hr>
 	<h2>User Account Access</h2>
+	<hr>
+	<a href="Logout.jsp">Logout</a>
 </body>
 </html>

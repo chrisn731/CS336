@@ -17,7 +17,10 @@
 			Connection con = db.getConnection();
 			Statement stmt = con.createStatement();
 			
-			String username = request.getParameter("username"); //asker
+			String username = (String) session.getAttribute("username");
+			if (username == null) {
+				response.sendRedirect("Login.jsp");
+			}
 			String question = request.getParameter("question"); //their question
 			
 			//Statement 1: Insert into questions table
@@ -37,7 +40,7 @@
 			ps.executeUpdate();
 			
 			%>
-			<jsp:forward page="Account.jsp?username=<%=username%>">
+			<jsp:forward page="Account.jsp">
 			<jsp:param name="askQuestionRet" value="Question posted!"/> 
 			</jsp:forward>
 			<% 
