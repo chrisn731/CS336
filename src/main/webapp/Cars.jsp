@@ -35,15 +35,43 @@
     	</table>
 	    
     	<div class="container">
-  <form class="form-inline" method="post" action="search.jsp">
+  <form class="form-inline" method="post" action="search.jsp?subcat=Cars">
     <input type="text" name="search" class="form-control" placeholder="Search goes here...">
     <button type="submit" name="save" class="btn btn-primary">Search</button>
+  </form>
+  
+    	<br>
+  
+	<form class="form-inline" method="post" action="Cars.jsp">
+		<select name="sortby" id="sortby">
+			<option value="None">---</option>
+	    	<option value="Name">Name</option>
+	    	<option value="lowToHigh">Price (Ascending)</option>
+	    	<option value="highToLow">Price (Descending)</option>
+	    	<option value="Tag">Color</option>
+		</select>	
+    <button type="submit" name="sortBy" >Sort By</button>
   </form>
 </div>
     	 <% 
 			Statement stmt = con.createStatement();
-            ResultSet resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Cars';") ; 
-        %>
+    	 	String sortParam = request.getParameter("sortby");
+    	 	ResultSet resultset = null;
+    	 	if(sortParam == null){
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Cars';");
+    	 	}else if(sortParam.equals("Name")){
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Cars' ORDER BY itemname;");
+    	 	}else if(sortParam.equals("lowToHigh")){
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Cars' ORDER BY price;");
+    	 	}else if(sortParam.equals("highToLow")){
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Cars' ORDER BY price DESC;");
+    	 	}else if(sortParam.equals("Tag")){
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Cars' ORDER BY subattribute;");
+    	 	}else{
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='Cars';");
+    	 	}
+             
+       	 %>
     	<br><br>
     	<form method="post" action="examinelisting.jsp">
     	<TABLE align="center" BORDER="1">
