@@ -14,7 +14,8 @@ CREATE TABLE listings(
     subattribute VARCHAR(30),
     price DECIMAL(10,2),
     minsale DECIMAL(10,2),
-    dt datetime
+    dt datetime,
+    closed int DEFAULT 0
 );
 
 #USER POSTS LISTING
@@ -24,7 +25,7 @@ CREATE TABLE posts(
     FOREIGN KEY(username) 
 		REFERENCES users(username) 
 			ON DELETE CASCADE
-            ON UPDATE CASCADE,
+			ON UPDATE CASCADE,
     FOREIGN KEY(l_id) REFERENCES listings(l_id) ON DELETE CASCADE
 );
 
