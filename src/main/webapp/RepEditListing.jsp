@@ -4,13 +4,19 @@
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
 <%@ page import="com.dbapp.*" %>
 
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Listing Editor</title>
+</head>
+<body>
 <% 
     		//Get the database connection
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
-			String username = (String) session.getAttribute("username"); //asker
-			if (username == null) {
+			String rep_id = (String) session.getAttribute("employeeid"); //asker
+			if (rep_id == null) {
 				response.sendRedirect("Login.jsp");
 			}
 			String lid = request.getParameter("lid");
@@ -30,9 +36,7 @@
 	            Statement stmt2 = con.createStatement();
 	          	ResultSet fetchposter = stmt2.executeQuery("SELECT username from posts WHERE l_id="+lid+";");
 	            String postedby = null; //user who posted listing
-	           	
-	           
-        %>
+	           	%>
 
                 <%
                 while(resultset.next()){
@@ -57,10 +61,9 @@
             	%>
         
         <div style="text-align: center">
-        <a href="home.jsp">Home</a>
+        <a href="CustomerRepHome.jsp">Exit Listing</a>
     		<h1><%=name%></h1>
     		
-    		<form method="post" action="VerifyBid.jsp">
 	    	<table align="center">
 	   			<tr>  
 					<td><input type="hidden" name="lid" value="<%=lid%>" /></td>
@@ -70,37 +73,9 @@
 	   			</tr>
 	   			<tr>  
 					<td>Current Price: <%=price%></td>
-	   			</tr>
-	   			<tr>  
-					<td>Bid: <input type="number" required name="bid" min="0" value="<%=minbid%>" step=".01"></td>
-	   			</tr>
-	   			<tr>
-					<td><input type="submit" value="Make Bid" style="width: 100%;"/></td>
-				</tr>
-	   			
-	   			
-	   			
-	   			<% //IF BID ERROR RETURNED
-	   				if (request.getParameter("msg") != null) { %>
-	   				<tr>
-					<td style="text-align: center; color: red"><%=request.getParameter("msg")%></td>	
-					</tr>	
-				<% } %>
-				
-				
-				
-				
+	   			</tr> 
 	    	</table>
-    	</form>
-    		<% //IF VALID BID COMPLETED
-    			if (request.getParameter("makeBidRet") != null) { %>
-				<tr>
-					<td><p style="text-align: center; color: blue"><%=request.getParameter("makeBidRet")%></p></td>
-				</tr>
-				<% } %>
     	</div>
-    	
-    	
     	
     	<hr>
     	<h3><u>Details:</u></h3>
@@ -108,7 +83,7 @@
     	<p><b>Closing Date/Time: </b><%=cdt%></p>
     	<p><b>Subcategory: </b><%=subcat%></p>
     	<p><b>Subattribute: </b><%=subattr%></p>
-    	<p><b>Min. Sale Price (will be hidden): </b><%=minsale%></p>
+    	<p><b>Min. Sale Price: </b><%=minsale%></p>
     	
     	<hr>
 		<div style="text-align: center">
@@ -120,23 +95,35 @@
 	        		"WHERE l_id= " +lid+";");
 		%>
 		
-		<TABLE align="center" BORDER="1">
-            <TR>
-                <TH>BidID</TH>
-                <TH>Price</TH>
-                <TH>Bidder</TH>
-                <TH>Date/Time</TH>
-            </TR>
-            <% while(bidhist.next()){ %>
-            <TR>
-            	<TD><%=bidhist.getString(1)%></TD>
-             	<TD><%=bidhist.getString(2)%></TD>
-                <TD><%=bidhist.getString(3)%></TD>
-                <TD><%=bidhist.getString(4)%></TD>
-            </TR>
-            <% } %>
-        </TABLE>
+		<form action="DoRepEditListing.jsp">
+			<TABLE align="center" BORDER="1">
+	            <TR>
+	                <TH>BidID</TH>
+	                <TH>Price</TH>
+	                <TH>Bidder</TH>
+	                <TH>Date/Time</TH>
+	            </TR>
+	            <% while(bidhist.next()){ %>
+	            <TR>
+	            	<TD><%=bidhist.getString(1)%></TD>
+	             	<TD><%=bidhist.getString(2)%></TD>
+	                <TD><%=bidhist.getString(3)%></TD>
+	                <TD><%=bidhist.getString(4)%></TD>
+	                <td><button name="bid" type="submit" value="<%= bidhist.getString(1) %>">Remove Bid</button></td>
+	            </TR>
+	            <% } %>
+	        </TABLE>
+	        <input type="hidden" name="operation" value="removeBid"/>
+	        <input type="hidden" name="lid" value="<%= lid %>"/>
+        </form>
+			
+		<hr>
 		
+		<form action="DoRepEditListing.jsp">
+			<button name="lid" type="submit" value="<%= lid %>">Remove Listing!</button>
+			<input type="hidden" name="operation" value="removeListing"/>
+		</form>
+		<p> WARNING: Removal of a listing can not be undone!</p>
 		</div>
 </body>
 </html>
