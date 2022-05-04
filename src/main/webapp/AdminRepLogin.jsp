@@ -30,5 +30,6 @@
 		<% } %>
 		</table>
 	</form>
+	<p style="text-align:center">Not an employee? <a href="Login.jsp">Login Here!</a></p>
 </body>
 </html>
