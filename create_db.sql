@@ -21,8 +21,11 @@ CREATE TABLE listings(
 CREATE TABLE posts(
 	l_id int PRIMARY KEY,
 	username VARCHAR(30),
-    FOREIGN KEY(username) REFERENCES users(username),
-    FOREIGN KEY(l_id) REFERENCES listings(l_id)
+    FOREIGN KEY(username) 
+		REFERENCES users(username) 
+			ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    FOREIGN KEY(l_id) REFERENCES listings(l_id) ON DELETE CASCADE
 );
 
 CREATE TABLE bids(
@@ -35,18 +38,24 @@ CREATE TABLE bids(
 CREATE TABLE bidson(
 	b_id int PRIMARY KEY,
 	l_id int,
-    FOREIGN KEY(l_id) REFERENCES listings(l_id),
-    FOREIGN KEY(b_id) REFERENCES bids(b_id)
+    FOREIGN KEY(l_id) REFERENCES listings(l_id) ON DELETE CASCADE,
+    FOREIGN KEY(b_id) REFERENCES bids(b_id) ON DELETE CASCADE
 );
 
 #connects buyers to bid ids
 CREATE TABLE places(
 	b_id int PRIMARY KEY,
 	username VARCHAR(30),
-    FOREIGN KEY(b_id) REFERENCES bids(b_id),
-    FOREIGN KEY(username) REFERENCES users(username)
+    FOREIGN KEY(b_id) 
+		REFERENCES bids(b_id)
+			ON DELETE CASCADE
+            ON UPDATE CASCADE,
+    FOREIGN KEY(username) 
+		REFERENCES users(username)
+			ON DELETE CASCADE
+            ON UPDATE CASCADE
 );
-
+ 
 CREATE TABLE admin(
 	id INT PRIMARY KEY,
 	password VARCHAR(30)
@@ -73,7 +82,10 @@ CREATE TABLE question(
 CREATE TABLE asks(
 	asker VARCHAR(30),
     q_id INT PRIMARY KEY,
-    FOREIGN KEY(asker) REFERENCES users(username),
+    FOREIGN KEY(asker)
+		REFERENCES users(username)
+			ON DELETE CASCADE
+            ON UPDATE CASCADE,
     FOREIGN KEY(q_id) REFERENCES question(q_id)
 );
 
