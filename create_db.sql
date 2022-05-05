@@ -68,6 +68,7 @@ CREATE TABLE customer_rep(
 	password VARCHAR(30)
 );
 
+#creates customer rep
 CREATE TABLE admin_creates(
 	aid INT,
     cr_id INT,
@@ -80,6 +81,7 @@ CREATE TABLE question(
     q_text VARCHAR(300)
 );
 
+#user asks question
 CREATE TABLE asks(
 	asker VARCHAR(30),
     q_id INT PRIMARY KEY,
@@ -90,10 +92,25 @@ CREATE TABLE asks(
     FOREIGN KEY(q_id) REFERENCES question(q_id)
 );
 
+#rep resolves question
 CREATE TABLE resolves(
 	q_id INT PRIMARY KEY,
     resolver INT,
     resolve_text VARCHAR(300),
     FOREIGN KEY(q_id) REFERENCES question(q_id),
     FOREIGN KEY(resolver) REFERENCES customer_rep(id)
+);
+
+CREATE TABLE sales(
+	s_id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    dtime datetime,
+    amount DECIMAL(10,2)
+);
+
+#sold listing generates sale
+CREATE TABLE generates(
+	s_id int PRIMARY KEY,
+	l_id int,
+    FOREIGN KEY(l_id) REFERENCES listings(l_id) ON DELETE CASCADE,
+    FOREIGN KEY(s_id) REFERENCES sales(s_id) ON DELETE CASCADE
 );
