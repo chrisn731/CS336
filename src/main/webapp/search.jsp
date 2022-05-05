@@ -46,6 +46,8 @@
 	    	<option value="lowToHigh">Price (Ascending)</option>
 	    	<option value="highToLow">Price (Descending)</option>
 	    	<option value="Tag">Tag</option>
+	    	<option value="Open">Status: Open</option>
+	    	<option value="Closed">Status: Closed</option>
 		</select>	
     <button type="submit" name="sortBy" >Sort By</button>
   </form>
@@ -65,6 +67,10 @@
     	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='"+subcat+"' AND itemname LIKE '%"+searchVal+"%' ORDER BY price DESC;");
     	 	}else if(sortParam.equals("Tag")){
     	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='"+subcat+"' AND itemname LIKE '%"+searchVal+"%' ORDER BY subattribute;");
+    	 	}else if(sortParam.equals("Open")){
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='"+subcat+"' AND closed='0' AND itemname LIKE '%"+searchVal+"%' ORDER BY itemname;");
+    	 	}else if(sortParam.equals("Closed")){
+    	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='"+subcat+"' AND closed='1' AND itemname LIKE '%"+searchVal+"%' ORDER BY itemname;");
     	 	}else{
     	 		resultset = stmt.executeQuery("SELECT * from listings WHERE subcategory='"+subcat+"' AND itemname LIKE '%"+searchVal+"%';");
     	 	}
@@ -78,13 +84,25 @@
                 <TH>Name</TH>
                 <TH>Tag</TH>
                 <TH>Price</TH>
+                <TH>Status</TH>
             </TR>
-            <% while(resultset.next()){ %>
+            <% while(resultset.next()){ 
+            	String status = resultset.getString(8);
+            %>
             <TR>
             	<TD> <button name="lid" type="submit" value="<%= resultset.getString(1) %>">>></button></TD>
            		<TD> <%=resultset.getString(2)%></TD>
                 <TD> <%= resultset.getString(4) %></TD>
                 <TD> <%= resultset.getString(5) %></TD>
+                <%if(status.equals("0")){
+                	%>
+                	<TD bgcolor="green">Open</TD>
+                	<%
+                }else{
+                	%>
+            		<TD bgcolor="red">CLOSED</TD>
+            		<%
+                } %>
             </TR>
             <% } %>
         </TABLE>

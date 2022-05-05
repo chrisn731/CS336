@@ -23,9 +23,11 @@
 	            String price = null;//price
 	            String minsale = null;//min. sale price
 	            String cdt = null;//closing datetime
+	            String status = null;//listing status
 	            Double p = null; //price
 	            Double m = null; //min incr
 	            Double minbid = null; //min bid
+	            Double minprice = null;
 	            
 	            Statement stmt2 = con.createStatement();
 	          	ResultSet fetchposter = stmt2.executeQuery("SELECT username from posts WHERE l_id="+lid+";");
@@ -43,11 +45,15 @@
 		            price = resultset.getString(5);
 		            minsale = resultset.getString(6);
 		            cdt = resultset.getString(7);
+		            status = resultset.getString(8);
 		            
 		            p = Double.parseDouble(price);
 		            p = Math.floor(p * 100)/100;
 					minbid = p+.01;
 					minbid = Math.floor(minbid * 100)/100;
+					
+					minprice = Double.parseDouble(minsale);
+					minprice = Math.floor(minprice * 100)/100;;
 	            }//end while loop
                 
                 while(fetchposter.next()){
@@ -68,15 +74,44 @@
 	   			<tr>  
 					<td><input type="hidden" name="price" value="<%=price%>" /></td>
 	   			</tr>
-	   			<tr>  
-					<td>Current Price: <%=price%></td>
-	   			</tr>
-	   			<tr>  
-					<td>Bid: <input type="number" required name="bid" min="0" value="<%=minbid%>" step=".01"></td>
-	   			</tr>
-	   			<tr>
-					<td><input type="submit" value="Make Bid" style="width: 100%;"/></td>
-				</tr>
+	   			
+	   			<% 
+	   				if(status.equals("0")){//listing is open
+	   					%>
+	   						<tr>  
+								<td>Current Price: <%=price%></td>
+	   						</tr>
+	   						<tr>  
+								<td>Bid: <input type="number" required name="bid" min="0" value="<%=minbid%>" step=".01"></td>
+	   						</tr>
+	   						<tr>
+								<td><input type="submit" value="Make Bid" style="width: 100%;"/></td>
+							</tr>
+	   					<% 
+	   				}else if(p>=minprice){//listing closed - SALE
+	   					%>
+	   						<tr>  
+								<td><h4>ITEM SOLD!</h4></td>
+	   						</tr>
+	   						<tr>  
+								<td>Sale Price: <%=price%></td>
+	   						</tr>
+	   					<% 
+	   				}else{
+	   					%>
+	   						<tr>  
+								<td><h4>Auction Closed: No Winner ;(</h4></td>
+	   						</tr>
+	   						<tr>  
+								<td>Final Price: <%=price%></td>
+	   						</tr>
+	   						<tr>  
+								<td>Desired Minimum: <%=minprice%></td>
+	   						</tr>
+	   					<% 
+	   				}
+	   			%>
+	   			
 	   			
 	   			
 	   			
@@ -108,7 +143,6 @@
     	<p><b>Closing Date/Time: </b><%=cdt%></p>
     	<p><b>Subcategory: </b><%=subcat%></p>
     	<p><b>Subattribute: </b><%=subattr%></p>
-    	<p><b>Min. Sale Price (will be hidden): </b><%=minsale%></p>
     	
     	<hr>
 		<div style="text-align: center">
