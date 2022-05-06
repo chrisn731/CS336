@@ -7,10 +7,10 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Viewing Question</title>
 </head>
 <body>
-
+	<a href="ViewQuestions.jsp"><= Back to Q&A</a>
 	<%
 	ApplicationDB db = new ApplicationDB();	
 	Connection con = db.getConnection();

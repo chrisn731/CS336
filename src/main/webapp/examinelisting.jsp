@@ -5,9 +5,9 @@
 <%@ page import="com.dbapp.*" %>
 
 
-	<% 
+	<%
     		//Get the database connection
-			ApplicationDB db = new ApplicationDB();	
+			ApplicationDB db = new ApplicationDB();
 			Connection con = db.getConnection();
 			String username = (String) session.getAttribute("username"); //asker
 			if (username == null) {
@@ -15,8 +15,9 @@
 			}
 			String lid = request.getParameter("lid");
 			Statement stmt = con.createStatement();
-            ResultSet resultset = stmt.executeQuery("SELECT * from listings WHERE l_id='"+lid+"';") ; 
+            ResultSet resultset = stmt.executeQuery("SELECT * from listings WHERE l_id='"+lid+"';") ;
         	// 1-l_id, 2-name, 3-subcategory, 4-subattribute, 5-price, 6-minincrement
+
        	   	String name = null;//listing name
             String subcat = null;//subcategory
             String subattr = null;//subattribute
@@ -28,10 +29,10 @@
             Double m = null; //min incr
             Double minbid = null; //min bid
             Double minprice = null;
-            
+
             Statement stmt2 = con.createStatement();
           	ResultSet fetchposter = stmt2.executeQuery("SELECT username from posts WHERE l_id="+lid+";");
-            String postedby = null; //user who posted listing      
+            String postedby = null; //user who posted listing
 
             while(resultset.next()){
 	            //String lid created above
@@ -42,22 +43,22 @@
 	            minsale = resultset.getString(6);
 	            cdt = resultset.getString(7);
 	            status = resultset.getString(8);
-	            
+
 	            p = Double.parseDouble(price);
 	            p = Math.round(p * 100.0)/100.0;
 				minbid = p+.01;
 				minbid = Math.round(minbid * 100.0)/100.0;
-				
+
 				minprice = Double.parseDouble(minsale);
 				minprice = Math.round(minprice * 100.0)/100.0;
            }
-              
+
            while(fetchposter.next()){
   	        	//String lid created above
   	            postedby = fetchposter.getString(1);
   	       }
           %>
-        
+
         <div style="text-align: center">
         	<a href="home.jsp">Home</a>
     		<h1><%=name%></h1>
@@ -66,16 +67,16 @@
     		<% } %>
     		<form method="post" action="VerifyBid.jsp">
 	    		<table align="center" style="margin-bottom: 0px">
-	   			<tr>  
+	   			<tr>
 					<td><input type="hidden" name="lid" value="<%=lid%>" /></td>
 	   			</tr>
-	   			<tr>  
+	   			<tr>
 					<td><input type="hidden" name="price" value="<%=price%>" /></td>
 	   			</tr>
-	   			
+
 	   			<% if(status.equals("0")){ //listing is open %>
 					<!-- Manual bids -->
-					<tr>  
+					<tr>
 						<td>Bid: <input type="number" required name="bid" min="0" value="<%=minbid%>" step=".01"></td>
 					</tr>
 					<tr>
@@ -86,22 +87,22 @@
 			</form>
 			<form method="post" action="VerifyAutoBid.jsp">
 	    		<table align="center" style="margin-top: 0px">
-	   			<tr>  
+	   			<tr>
 					<td><input type="hidden" name="lid" value="<%=lid%>" /></td>
 	   			</tr>
-	   			<tr>  
+	   			<tr>
 					<td><input type="hidden" name="price" value="<%=price%>" /></td>
 	   			</tr>
-	   			
+
 	   			<% if(status.equals("0")){ //listing is open %>
 					<!-- Automatic bids -->
 					<tr>
 						<td style="text-align: center"> or </td>
 					</tr>
-					<tr>  
+					<tr>
 						<td>Bid Limit: <input type="number" required name="bid_limit" min="0" step=".01"></td>
   					</tr>
-					<tr>  
+					<tr>
 						<td>Increment: <input type="number" required name="increment" min="0" step=".01"></td>
   					</tr>
   					<tr>
@@ -112,22 +113,22 @@
 			</form>
 			<% if (p >= minprice && status.equals("1") ) {//listing closed - SALE %>
 				<table>
-					<tr>  
+					<tr>
 						<td><h4>ITEM SOLD!</h4></td>
 					</tr>
-					<tr>  
+					<tr>
 						<td>Sale Price: <%=price%></td>
 					</tr>
 				</table>
 	   		<% } else if (status.equals("1")) { //listing closed - no winner %>
 	   			<table>
-					<tr>  
+					<tr>
 						<td><h4>Auction Closed: No Winner ;(</h4></td>
 					</tr>
-					<tr>  
+					<tr>
 						<td>Final Price: <%=price%></td>
 					</tr>
-					<tr>  
+					<tr>
 						<td>Desired Minimum: <%=minprice%></td>
 					</tr>
 				</table>
@@ -135,20 +136,20 @@
    			<% if (request.getParameter("msg") != null) { //IF BID ERROR RETURNED %>
    				<table>
    					<tr>
-						<td style="text-align: center; color: red"><%=request.getParameter("msg")%></td>	
+						<td style="text-align: center; color: red"><%=request.getParameter("msg")%></td>
 					</tr>
 				</table>
 			<% } %>
-				
+
     		<% if (request.getParameter("makeBidRet") != null) { //IF VALID BID COMPLETED %>
 				<tr>
 					<td><p style="text-align: center; color: blue"><%=request.getParameter("makeBidRet")%></p></td>
 				</tr>
 			<% } %>
     	</div>
-    	
-    	
-    	
+
+
+
     	<hr>
     	<h3><u>Details:</u></h3>
     	<p><b>Seller: </b><%=postedby%></p>
@@ -164,7 +165,7 @@
 	        		"LEFT JOIN bidson bo on bo.b_id = b.b_id LEFT JOIN places p on p.b_id = bo.b_id " +
 	        		"WHERE l_id= " +lid+";");
 		%>
-		
+
 		<TABLE align="center" BORDER="1">
             <TR>
                 <TH>BidID</TH>
@@ -181,7 +182,7 @@
             </TR>
             <% } %>
         </TABLE>
-		
+
 		</div>
 </body>
 </html>

@@ -67,7 +67,22 @@
 			<% } %>
 		</table>
 	</form>
-	<p>
+	<hr>
+	<h2>Create Sales Reports</h2>
+	<h4>Generate a new sales report</h4>
+	<form action="GenSalesReport.jsp">
+		<table>
+			<tr>
+				<th>From (Start Date)</th>
+				<th>To (End Date)</th>
+			</tr>
+			<tr>
+				<td><input type="datetime-local" required name="date1"></td>
+				<td><input type="datetime-local" required name="date2"></td>
+			</tr>
+		</table>
+		<input type="submit" value="Generate">
+	</form>
 	<a href="Logout.jsp">Logout</a>
 </body>
 </html>
