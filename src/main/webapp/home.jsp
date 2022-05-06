@@ -47,7 +47,7 @@
     	</table>
     	
     	<% 
-    		//Get a table that shows which listings the user no longer has the highest bid in
+    		//table that shows which listings the user no longer has the highest bid in
     		PreparedStatement ps = con.prepareStatement(
     			"SELECT l.itemname, l.price, MAX(b.price) AS user_max_bid " +
 				"FROM places p " +
@@ -60,6 +60,7 @@
     		ps.setString(1, username);
     		ResultSet lostBids = ps.executeQuery();
     		
+    		//table that shows which automatic bids are no longer valid
     		ps = con.prepareStatement(
     			"SELECT l.itemname, l.price, ab.b_limit " +
     			"FROM auto_bids ab " +
@@ -69,8 +70,9 @@
     		ps.setString(1, username);
     		ResultSet lostAutoBids = ps.executeQuery();	
     		
+    		//table that shows a user's won auctions
     		ps = con.prepareStatement(
-    			"SELECT l.itemname, l.price " +
+    			"SELECT DISTINCT l.itemname, l.price " +
   				"FROM listings l " +
   				"INNER JOIN bidson bd ON l.l_id = bd.l_id " +
   				"INNER JOIN bids b ON bd.b_id = b.b_id " + 
@@ -79,11 +81,12 @@
     		ps.setString(1, username);
     		ResultSet wonAuctions = ps.executeQuery();
     		
+    		//table that shows listings of a user's interests up for auction
     		ps = con.prepareStatement(
         		"SELECT l.itemname " +
     			"FROM listings l " +
         		"INNER JOIN interests i ON i.interest = l.itemname " + 
-    			"WHERE i.username =(?)");
+    			"WHERE i.username =(?) AND l.closed=0");
         	ps.setString(1, username);
         	ResultSet interests = ps.executeQuery();
        	 %>
@@ -117,7 +120,7 @@
             <% while(interests.next()) { %>
             	<tr>
             		<td>
-            			<span style="color:blue">Availability Alert! </span>Your interest <%=interests.getString(1)%> is up for auction!
+            			<span style="color:blue">Availability Alert! </span>Your interest '<%=interests.getString(1)%>' is up for auction!
             		</td>
            	</tr>
             <% } %>
