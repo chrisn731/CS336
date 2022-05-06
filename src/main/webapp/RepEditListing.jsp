@@ -49,9 +49,9 @@
 		            cdt = resultset.getString(7);
 		            
 		            p = Double.parseDouble(price);
-		            p = Math.floor(p * 100)/100;
+		            p = Math.round(p * 100.0)/100.0;
 					minbid = p+.01;
-					minbid = Math.floor(minbid * 100)/100;
+					minbid = Math.round(minbid * 100.0)/100.0;
 	            }//end while loop
                 
                 while(fetchposter.next()){

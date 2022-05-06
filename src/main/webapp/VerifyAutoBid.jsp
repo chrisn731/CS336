@@ -16,68 +16,55 @@
 			ApplicationDB db = new ApplicationDB();	
 			Connection con = db.getConnection();
 			
-			Statement stmt = con.createStatement();//update listing
-			Statement stmt2 = con.createStatement();//insert into bids
-			Statement stmt3 = con.createStatement();//insert into bidson
+			Statement stmt = con.createStatement();
 			
 			String username = (String) session.getAttribute("username");
 			if (username == null) {
 				response.sendRedirect("Login.jsp");
 			}
-			String lid = request.getParameter("lid");
-			String bid = request.getParameter("bid");
-			String price = request.getParameter("price");
-			Double b = Double.parseDouble(bid);
-			Double p = Double.parseDouble(price);
 			
+			String lid = request.getParameter("lid");
+			String price = request.getParameter("price");
+			String bidLimit = request.getParameter("bid_limit");
+			String increment = request.getParameter("increment");
+
+			Double lim = Double.parseDouble(bidLimit);
+			Double incr = Double.parseDouble(increment);
+			Double p = Double.parseDouble(price);
             p = Math.round(p * 100.0)/100.0;
-            b = Math.round(b * 100.0)/100.0;
+            lim = Math.round(lim * 100.0)/100.0;
+            incr = Math.round(incr * 100.0)/100.0;
             
-			if(bid.equals("NONE")){
+			if (bidLimit.equals("NONE")) {
 				%>
 				<jsp:forward page="examinelisting.jsp">
-				<jsp:param name="msg" value="You must input a bid."/> 
+				<jsp:param name="msg" value="You must input a bid limit."/> 
 				<jsp:param name="lid" value="<%=lid%>"/> 
 				</jsp:forward>
-			<% } else if (p >= b) { %>
+			<% } else if (p >= lim) { %>
 				<jsp:forward page="examinelisting.jsp">
-				<jsp:param name="msg" value="You must input a valid bid."/> 
+				<jsp:param name="msg" value="Bid limit must be greater than current bid."/> 
 				<jsp:param name="lid" value="<%=lid%>"/> 
 				</jsp:forward><%
-			}else{//BID SUCCESS
-				//update listing
-				String insert = "UPDATE listings SET price = " + b + " WHERE l_id = " + lid;
-				PreparedStatement ps = con.prepareStatement(insert);
-				ps.executeUpdate();
-				
-				//insert into bids
-				insert = "INSERT INTO bids(price, dtime)" 
-						+ "VALUES(?,?)";
-				ps = con.prepareStatement(insert);
-				ps.setString(1, bid);
-				ps.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
-				ps.executeUpdate();
-				
-				//insert into bidson
-				insert = "INSERT INTO bidson(b_id, l_id)" 
-						+ "VALUES((SELECT MAX(b_id) FROM bids),?)";
-				ps = con.prepareStatement(insert);
-				ps.setString(1, lid);
-				ps.executeUpdate();
-				
-				//insert into places
-				insert = "INSERT INTO places(b_id, username)" 
-						+ "VALUES((SELECT MAX(b_id) FROM bids),?)";
-				ps = con.prepareStatement(insert);
+			} else { //On success, create an auto bid for this user on this listing
+				PreparedStatement ps = con.prepareStatement(
+						"INSERT INTO auto_bids(u_id, l_id, increment, b_limit, current_price) " +
+						"VALUES(?, ?, ?, ?, ?) " +
+						"ON DUPLICATE KEY UPDATE increment = (?), b_limit = (?), current_price = (?)");
 				ps.setString(1, username);
+				ps.setString(2, lid);
+				ps.setDouble(3, incr);
+				ps.setDouble(4, lim);
+				ps.setDouble(5, p);
+				ps.setDouble(6, incr);
+				ps.setDouble(7, lim);
+				ps.setDouble(8, p);
 				ps.executeUpdate();
-				
-				
 			} 		
 			
 			%>
 			<jsp:forward page="examinelisting.jsp">
-			<jsp:param name="makeBidRet" value="Bid success!"/>
+			<jsp:param name="makeBidRet" value="Automatic bid added!"/>
 			<jsp:param name="lid" value="<%=lid%>"/>
 			 
 			</jsp:forward>

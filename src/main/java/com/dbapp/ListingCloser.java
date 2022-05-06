@@ -30,9 +30,9 @@ class ListingCloser extends Thread {
 					Timestamp curr_time = new Timestamp(System.currentTimeMillis());
 					
 					Double p = Double.parseDouble(price);
-					p = Math.floor(p * 100)/100;
+					p = Math.round(p * 100.0)/100.0;
 					Double m = Double.parseDouble(minsale);
-					m = Math.floor(m * 100)/100;
+					m = Math.round(m * 100.0)/100.0;
 					
 					if (close_time.before(curr_time) || close_time.equals(curr_time)) {
 						ps = c.prepareStatement(

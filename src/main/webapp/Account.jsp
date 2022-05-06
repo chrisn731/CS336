@@ -36,7 +36,10 @@
    			</tr>
    			<tr>
    				<td><td><br><a href="AskQuestion.jsp">Ask a Question</a></td>
-   			</tr>    			
+   			</tr>  
+   			<tr>
+   				<td><td><br><a href="Interests.jsp">Interests</a></td>
+   			</tr>   			
    			<tr>
    				<td><td><br><a href="Logout.jsp">Delete Account</a></td>
    			</tr>   			
