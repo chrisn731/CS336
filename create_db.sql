@@ -35,6 +35,17 @@ CREATE TABLE bids(
     dtime datetime
 );
 
+CREATE TABLE auto_bids(
+	u_id VARCHAR(30),
+    l_id INT,
+    increment DECIMAL(10,2),
+    b_limit DECIMAL(10,2),
+    current_price DECIMAL(10,2),
+    PRIMARY KEY(u_id, l_id),
+    FOREIGN KEY(u_id) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY(l_id) REFERENCES listings(l_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
 #Bids on listings
 CREATE TABLE bidson(
 	b_id int PRIMARY KEY,
@@ -74,6 +85,13 @@ CREATE TABLE admin_creates(
     cr_id INT,
     FOREIGN KEY(aid) REFERENCES admin(id),
     FOREIGN KEY(cr_id) REFERENCES customer_rep(id)
+);
+
+CREATE TABLE interests(
+	username VARCHAR(30),
+    interest VARCHAR(30),
+    PRIMARY KEY(username, interest),
+    FOREIGN KEY(username) REFERENCES users(username) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE question(
