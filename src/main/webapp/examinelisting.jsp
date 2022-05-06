@@ -182,7 +182,31 @@
             </TR>
             <% } %>
         </TABLE>
-
+        <hr>
+        <h3>Similar Items</h3>
+        <%
+			Statement stmt4 = con.createStatement();
+	        ResultSet similar = stmt4.executeQuery("SELECT * from listings WHERE l_id != "+lid+" AND (itemname LIKE '%"+name+"%' OR subattribute LIKE '%"+subattr+"%');");
+		%>
+<form method="post" action="examinelisting.jsp">
+    	<TABLE align="center" BORDER="1">	
+            <TR>
+            	<TH>View</TH>
+                <TH>Item Name</TH>
+                <TH>Subcategory</TH>
+                <TH>Attribute</TH>
+            </TR>
+            <% while(similar.next()){ 
+            %>
+            <TR>
+            	<TD> <button name="lid" type="submit" value="<%= similar.getString(1) %>">>></button></TD>
+           		<TD><%=similar.getString(2)%></TD>
+           		<TD><%=similar.getString(3)%></TD>
+           		<TD><%=similar.getString(4)%></TD>
+            </TR>
+            <% } %>
+        </TABLE>
+    	</form>
 		</div>
 </body>
 </html>
