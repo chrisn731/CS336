@@ -85,7 +85,7 @@
     		ps = con.prepareStatement(
         		"SELECT l.itemname " +
     			"FROM listings l " +
-        		"INNER JOIN interests i ON i.interest = l.itemname " + 
+        		"INNER JOIN interests i ON l.itemname LIKE CONCAT('%', i.interest, '%') " + 
     			"WHERE i.username =(?) AND l.closed=0");
         	ps.setString(1, username);
         	ResultSet interests = ps.executeQuery();

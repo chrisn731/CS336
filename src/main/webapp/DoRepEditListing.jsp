@@ -28,10 +28,13 @@
 		ps.setString(1, bid);
 		ps.executeUpdate();
 		ps = con.prepareStatement(
-				"SELECT MAX(b.price) FROM bidson bs, bids b WHERE bs.l_id=(?)"
+				"SELECT MAX(b.price) " +
+				"FROM listings l " +
+				"INNER JOIN bidson bd ON bd.l_id = l.l_id " +
+				"INNER JOIN bids b ON b.b_id = bd.b_id " +
+				"WHERE l.l_id=(?)"
 		);
 		ps.setString(1, lid);
-		System.out.println(ps);
 		ResultSet rs = ps.executeQuery();
 		String new_price = null;
 		if (rs.next()) {

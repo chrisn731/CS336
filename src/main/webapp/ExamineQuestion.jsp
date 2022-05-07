@@ -34,6 +34,7 @@
 		rs.next();
 		String q_text = rs.getString(1);
 	%>
+	<a href="CustomerRepHome.jsp"><= Back to Rep Home</a>
 	<h2><%= asker %> asks:</h2>
 	<%= q_text %>
 	<hr>

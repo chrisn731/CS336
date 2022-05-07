@@ -4,7 +4,15 @@
 <%@ page import="javax.servlet.http.*,javax.servlet.*"%>
 <%@ page import="com.dbapp.*" %>
 
-
+<head>
+<style>
+.center {
+	margin-left: auto;
+	margin-right: auto;
+}
+</style>
+</head>
+<body>
 	<%
     		//Get the database connection
 			ApplicationDB db = new ApplicationDB();
@@ -65,6 +73,9 @@
     		<% if (status.equals("0")) { %>
     			<p><b>Current Price: $<%=price%></b></p>
     		<% } %>
+			
+			<!-- Start of Bid Inputs -->
+    		<% if (!postedby.equals(username)) { %>
     		<form method="post" action="VerifyBid.jsp">
 	    		<table align="center" style="margin-bottom: 0px">
 	   			<tr>
@@ -73,7 +84,7 @@
 	   			<tr>
 					<td><input type="hidden" name="price" value="<%=price%>" /></td>
 	   			</tr>
-
+			
 	   			<% if(status.equals("0")){ //listing is open %>
 					<!-- Manual bids -->
 					<tr>
@@ -111,25 +122,28 @@
 					<% } %>
 				</table>
 			</form>
+			<% } %>
+			<!-- End of Bid Inputs -->
+			
 			<% if (p >= minprice && status.equals("1") ) {//listing closed - SALE %>
-				<table>
+				<table class="center">
 					<tr>
 						<td><h4>ITEM SOLD!</h4></td>
 					</tr>
 					<tr>
-						<td>Sale Price: <%=price%></td>
+						<td>Sale Price: $<%=price%></td>
 					</tr>
 				</table>
 	   		<% } else if (status.equals("1")) { //listing closed - no winner %>
-	   			<table>
+	   			<table class="center">
 					<tr>
 						<td><h4>Auction Closed: No Winner ;(</h4></td>
 					</tr>
 					<tr>
-						<td>Final Price: <%=price%></td>
+						<td>Final Price: $<%=price%></td>
 					</tr>
 					<tr>
-						<td>Desired Minimum: <%=minprice%></td>
+						<td>Desired Minimum: $<%=minprice%></td>
 					</tr>
 				</table>
 	   		<% } %>
@@ -166,16 +180,14 @@
 	        		"WHERE l_id= " +lid+";");
 		%>
 
-		<TABLE align="center" BORDER="1">
+		<table align="center" BORDER="1">
             <TR>
-                <TH>BidID</TH>
                 <TH>Price</TH>
                 <TH>Bidder</TH>
                 <TH>Date/Time</TH>
             </TR>
             <% while(bidhist.next()){ %>
             <TR>
-            	<TD><%=bidhist.getString(1)%></TD>
              	<TD><%=bidhist.getString(2)%></TD>
                 <TD><%=bidhist.getString(3)%></TD>
                 <TD><%=bidhist.getString(4)%></TD>
@@ -188,8 +200,8 @@
 			Statement stmt4 = con.createStatement();
 	        ResultSet similar = stmt4.executeQuery("SELECT * from listings WHERE l_id != "+lid+" AND (itemname LIKE '%"+name+"%' OR subattribute LIKE '%"+subattr+"%');");
 		%>
-<form method="post" action="examinelisting.jsp">
-    	<TABLE align="center" BORDER="1">	
+		<form method="post" action="examinelisting.jsp">
+    	<table align="center" BORDER="1">	
             <TR>
             	<TH>View</TH>
                 <TH>Item Name</TH>

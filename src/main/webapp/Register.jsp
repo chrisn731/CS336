@@ -14,7 +14,7 @@
 			<td>Username: <input type="text" name="username" value="" maxlength="30" required/></td>
 		</tr>
 		<tr>
-			<td>Password: <input type="text" name="password" value="" maxlength="30" required/></td>
+			<td>Password: <input type="password" name="password" value="" maxlength="30" required/></td>
 		</tr>
 		<tr>
 			<td><input type="submit" value="Create Account" style="width: 100%;"/></td>

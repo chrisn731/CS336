@@ -70,7 +70,6 @@
     	<TABLE align="center" BORDER="1">	
             <TR>
             	<TH>View</TH>
-                <TH>Bid ID</TH>
                 <TH>Price</TH>
                 <TH>Date/Time</TH>
             </TR>
@@ -78,7 +77,6 @@
             %>
             <TR>
             	<TD> <button name="lid" type="submit" value="<%= bidhist.getString(1) %>">>></button></TD>
-           		<TD><%=bidhist.getString(2)%></TD>
                 <TD><%= bidhist.getString(3) %></TD>
                 <TD><%= bidhist.getString(4) %></TD>
             </TR>
