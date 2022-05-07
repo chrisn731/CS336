@@ -24,7 +24,11 @@
 			}
 			
 			String lid = request.getParameter("lid");
-			String price = request.getParameter("price");
+			PreparedStatement prepst = con.prepareStatement("SELECT price FROM listings WHERE l_id=(?)");
+			prepst.setString(1, lid);
+			ResultSet r = prepst.executeQuery();
+			r.next();
+			String price = r.getString(1);
 			String bidLimit = request.getParameter("bid_limit");
 			String increment = request.getParameter("increment");
 

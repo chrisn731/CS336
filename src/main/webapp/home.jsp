@@ -54,7 +54,7 @@
     			"INNER JOIN bidson bo ON bo.b_id = p.b_id " + 
 				"INNER JOIN bids b ON b.b_id = p.b_id " +
 				"INNER JOIN listings l ON bo.l_id = l.l_id " + 
-				"WHERE p.username =(?) " +
+				"WHERE p.username =(?) AND l.closed=0 " +
 				"GROUP BY l.l_id " +
 				"HAVING user_max_bid < l.price");
     		ps.setString(1, username);
@@ -65,7 +65,7 @@
     			"SELECT l.itemname, l.price, ab.b_limit " +
     			"FROM auto_bids ab " +
     			"INNER JOIN listings l ON ab.l_id = l.l_id " +
-    			"WHERE ab.u_id =(?) " +
+    			"WHERE ab.u_id =(?) AND l.closed=0 " +
     			"HAVING l.price > ab.b_limit");
     		ps.setString(1, username);
     		ResultSet lostAutoBids = ps.executeQuery();	

@@ -6,12 +6,12 @@ import java.sql.SQLException;
 
 public class ApplicationDB {
 	
-	ListingCloser lc;
+	ListingAutoUpdater lc;
 	private static boolean closer_running = false;
 	
 	public ApplicationDB(){
 		if (!closer_running) {
-			lc = new ListingCloser(getConnection());
+			lc = new ListingAutoUpdater(getConnection());
 			lc.start();
 			closer_running = true;
 		}
@@ -24,7 +24,6 @@ public class ApplicationDB {
 		Connection connection = null;
 		
 		try {
-			//Load JDBC driver - the interface standardizing the connection procedure. Look at WEB-INF\lib for a mysql connector jar file, otherwise it fails.
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
 		} catch (InstantiationException e) {
 			// TODO Auto-generated catch block
@@ -38,7 +37,7 @@ public class ApplicationDB {
 		}
 		try {
 			//Create a connection to your DB
-			connection = DriverManager.getConnection(connectionUrl, "root", "root");
+			connection = DriverManager.getConnection(connectionUrl, "root", "rootpass");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
