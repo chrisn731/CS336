@@ -16,3 +16,6 @@ Credentials:
 	admin:
 		EmployeeID: 0
 		Password: "adminpass"
+
+Video Link:
+https://drive.google.com/file/d/10URU6k41UF839EIOCYfqJGrinTHgu8aj/view?usp=sharing
